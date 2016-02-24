@@ -1,15 +1,22 @@
-var docBody = document.getElementsByTagName("body")[0];
+var docBody = document.getElementsByTagName('body')[0];
+var audio = document.createElement("audio");
 
-docBody.setAttribute("style", "text-align:center");
+audio.type = 'audio/mpeg';
+audio.src = 'http://www.audiocheck.net/Audio/audiocheck.net_whitenoise.mp3';
+audio.addEventListener('canplay', function(){
+  audio.play();
+}, true);
 
-function divMaker(grad) {
+docBody.setAttribute('style', 'text-align:center');
+
+function divMaker() {
   var newDiv = document.createElement('div');
-  newDiv.style.boxSizing = "border-box";
-  newDiv.style.width = "11.1%";
-  newDiv.style.float = "left";
-  newDiv.style.paddingBottom = "11.1%";
+  newDiv.className = 'tile';
+  newDiv.style.boxSizing = 'border-box';
+  newDiv.style.width = '11.1%';
+  newDiv.style.float = 'left';
+  newDiv.style.paddingBottom = '11.1%';
   newDiv.style.background = colorPicker();
-  newDiv.style.opacity = grad;
   docBody.appendChild(newDiv);
 }
 
@@ -19,14 +26,20 @@ function colorPicker() {
   return color;
 }
 
+function changeColor() {
+  var tiles = document.getElementsByClassName('tile');
+  for (var i = 0; i < tiles.length; i++) {
+    tiles[i].style.background = colorPicker();
+  }
+}
+
 function makeBoard(size) {
-  var grad = 1;
   for(var rows = 0; rows < 7; rows ++) {
-    grad -= 0.12;
     for(var cols = 0; cols < 9; cols ++) {
-      divMaker(grad);
+      divMaker();
     }
   }
 }
 
 makeBoard(63);
+window.setInterval(changeColor, 2000);
